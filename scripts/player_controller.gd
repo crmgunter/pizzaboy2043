@@ -5,10 +5,10 @@ var speed = 400
 var jump_speed = -275
 var gravity = 200
 var velocity = Vector2()
+var direction = "right"
 onready var player = get_node("Sprite")
 
 func get_input(delta):
-	print(starting_pos, position)
 	velocity.x = 0
 	
 	if Input.is_action_just_pressed("sprint") and (is_on_floor()):
@@ -16,8 +16,16 @@ func get_input(delta):
 	if Input.is_action_just_released("sprint"):
 		speed = 400
 	if Input.is_action_pressed("move_right"):
+		$AnimationPlayer.play("walk_right")
+		if direction == "left":
+			$Sprite.flip_h = false
+			direction = "right"
 		velocity.x += speed
 	if Input.is_action_pressed("move_left"):
+		$AnimationPlayer.play("walk_right")		
+		if direction == "right":
+			$Sprite.flip_h = true
+			direction = "left"
 		velocity.x -= speed
 	if Input.is_action_pressed("jump"):
 		if (is_on_floor()):
